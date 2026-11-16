@@ -1,6 +1,6 @@
 {
   "name": "iobroker.nubert-sub",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Control a Nubert X-Sub subwoofer via Bluetooth LE",
   "author": "Smallfeuer <small@dclu.de>",
   "license": "MIT",

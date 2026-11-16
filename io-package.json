@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "Search button in settings, setup guide",
+        "de": "Knopf \"Sub suchen\" in den Einstellungen, Einrichtungsanleitung"
+      },
       "0.1.1": {
         "en": "Faster connect retries",
         "de": "Schnellere Verbindungswiederholung"
@@ -53,7 +57,8 @@
       {
         "admin": ">=6.0.0"
       }
-    ]
+    ],
+    "messagebox": true
   },
   "native": {
     "mac": "",

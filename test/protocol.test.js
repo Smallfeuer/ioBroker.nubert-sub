@@ -52,3 +52,10 @@ test('parse firmware', () => {
 test('hex formatting', () => {
     assert.equal(P.hex([0x1f, 0x01, 0x00]), '1f 01 00');
 });
+
+test('recognise Nubert device names', () => {
+    assert.equal(P.isNubert('nubert X-Sub'), true);
+    assert.equal(P.isNubert('nuPro X-4000'), true);
+    assert.equal(P.isNubert('S24+ von Maicel'), false);
+    assert.equal(P.isNubert(undefined), false);
+});

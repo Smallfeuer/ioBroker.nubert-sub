@@ -45,24 +45,26 @@ class NubertSub extends utils.Adapter {
         this.on('ready', this.onReady.bind(this));
         this.on('stateChange', this.onStateChange.bind(this));
         this.on('unload', this.onUnload.bind(this));
+        this.on('message', this.onMessage.bind(this));
     }
 
     async onReady() {
         await this.setState('info.connection', false, true);
         await this.createObjects();
 
+        const ble = createBluetooth();
+        this.bt = ble.bluetooth;
+        this.destroyBt = ble.destroy;
+
         this.mac = String(this.config.mac || '').trim().toUpperCase();
         if (!MAC_RE.test(this.mac)) {
-            this.log.error('Please enter the Bluetooth address of the subwoofer in the instance settings');
+            this.mac = '';
+            this.log.warn('No Bluetooth address configured: open the instance settings and press "Search sub"');
             return;
         }
         this.charUuid = String(this.config.characteristic || P.CHARACTERISTIC).trim().toLowerCase();
         this.readbackDelay = Math.max(5, Number(this.config.readbackDelay) || 60) * 1000;
         this.idleDelay = Math.max(2, Number(this.config.idleDisconnect) || 5) * 1000;
-
-        const ble = createBluetooth();
-        this.bt = ble.bluetooth;
-        this.destroyBt = ble.destroy;
 
         this.subscribeStates('*');
         this.enqueue('start-up', async () => {
@@ -133,7 +135,7 @@ class NubertSub extends utils.Adapter {
             }
             this.conn = null;
         }
-        const adapter = this.config.hci ? await this.bt.getAdapter(this.config.hci) : await this.bt.defaultAdapter();
+        const adapter = await this.getBtAdapter();
         if (!(await adapter.isPowered())) {
             throw new Error(`Bluetooth adapter ${await adapter.getName().catch(() => '')} is not powered`);
         }
@@ -177,6 +179,15 @@ class NubertSub extends utils.Adapter {
             }
         }
         throw new Error(`no BLE connection (is the vendor app connected?): ${last && last.message}`);
+    }
+
+    async getBtAdapter() {
+        const hci = String(this.config.hci || '').trim();
+        try {
+            return hci ? await this.bt.getAdapter(hci) : await this.bt.defaultAdapter();
+        } catch (e) {
+            throw new Error(`Bluetooth adapter ${hci || '(default)'} not available: ${e.message}`);
+        }
     }
 
     /**
@@ -263,6 +274,98 @@ class NubertSub extends utils.Adapter {
         for (const [id, val] of Object.entries(r.states)) {
             this.setState(id, val, true);
         }
+    }
+
+    // ---------------------------------------------------------------- search
+
+    /**
+     * Search for Nubert devices (BLE discovery).
+     *
+     * @param {number} seconds discovery time
+     * @returns {Promise<{mac: string, name: string, rssi: number|null}[]>} found devices, strongest first
+     */
+    async scan(seconds) {
+        const adapter = await this.getBtAdapter();
+        if (!(await adapter.isPowered())) {
+            throw new Error('Bluetooth adapter is not powered');
+        }
+        await adapter.helper.callMethod('SetDiscoveryFilter', { Transport: new Variant('s', 'le') }).catch(() => {});
+        const started = !(await adapter.isDiscovering());
+        if (started) {
+            await adapter.startDiscovery();
+        }
+        try {
+            await sleep(seconds * 1000);
+        } finally {
+            if (started) {
+                await adapter.stopDiscovery().catch(() => {});
+            }
+        }
+        const found = [];
+        for (const mac of await adapter.devices()) {
+            const dev = await adapter.getDevice(mac).catch(() => null);
+            if (!dev) {
+                continue;
+            }
+            const name = await dev.getName().catch(() => dev.getAlias().catch(() => ''));
+            if (!P.isNubert(name)) {
+                continue;
+            }
+            const rssi = await dev.helper.prop('RSSI').catch(() => null);
+            found.push({ mac: mac.toUpperCase(), name, rssi: typeof rssi === 'number' ? rssi : null });
+        }
+        found.sort((a, b) => (b.rssi ?? -999) - (a.rssi ?? -999));
+        return found;
+    }
+
+    /**
+     * Run fn after all queued BLE work, without a connection to the sub
+     * (the sub does not advertise while connected).
+     *
+     * @param {() => Promise<any>} fn work
+     */
+    runDisconnected(fn) {
+        const p = this.queue.then(async () => {
+            await this.disconnect();
+            return fn();
+        });
+        this.queue = p.catch(() => {});
+        return p;
+    }
+
+    async onMessage(obj) {
+        if (!obj || typeof obj !== 'object' || !obj.command) {
+            return;
+        }
+        const reply = res => obj.callback && this.sendTo(obj.from, obj.command, res, obj.callback);
+        if (obj.command !== 'scan') {
+            reply({ error: `unknown command ${obj.command}` });
+            return;
+        }
+        const de = await this.isGerman();
+        try {
+            const found = await this.runDisconnected(() => this.scan(10));
+            this.log.info(`Search: ${found.length ? found.map(d => `${d.name} ${d.mac}`).join(', ') : 'nothing found'}`);
+            if (!found.length) {
+                reply({
+                    error: de
+                        ? 'Kein Nubert-Gerät gefunden. Ist der Sub am Strom und die X-Remote-App getrennt?'
+                        : 'No Nubert device found. Is the sub powered and the X-Remote app disconnected?',
+                });
+                return;
+            }
+            const list = found.map(d => `${d.name} (${d.mac}${d.rssi !== null ? `, ${d.rssi} dBm` : ''})`).join(', ');
+            // admin shows the text from jsonConfig "result.found" with %s replaced by args
+            reply({ native: { mac: found[0].mac }, result: 'found', args: [`${found[0].name} ${found[0].mac}`, list] });
+        } catch (e) {
+            this.log.warn(`Search failed: ${e.message}`);
+            reply({ error: e.message });
+        }
+    }
+
+    async isGerman() {
+        const cfg = await this.getForeignObjectAsync('system.config').catch(() => null);
+        return !!(cfg && cfg.common && cfg.common.language === 'de');
     }
 
     // ---------------------------------------------------------------- ioBroker
