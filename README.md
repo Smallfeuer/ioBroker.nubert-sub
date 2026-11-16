@@ -185,6 +185,9 @@ Wartezeit für das Status-Rücklesen, Leerlaufzeit bis zum Trennen.
     ### **WORK IN PROGRESS**
 -->
 
+### 0.4.1
+- Release via npm trusted publishing (no tokens)
+
 ### 0.4.0
 - Translations (11 languages), icon, automatic tests, npm release
 

@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "news": {
+      "0.4.1": {
+        "en": "Release via npm trusted publishing (no tokens)",
+        "de": "Veröffentlichung per npm Trusted Publishing (ohne Tokens)",
+        "ru": "Публикация через npm trusted publishing (без токенов)",
+        "pt": "Publicação via npm trusted publishing (sem tokens)",
+        "nl": "Publicatie via npm trusted publishing (zonder tokens)",
+        "fr": "Publication via npm trusted publishing (sans jetons)",
+        "it": "Pubblicazione tramite npm trusted publishing (senza token)",
+        "es": "Publicación mediante npm trusted publishing (sin tokens)",
+        "pl": "Publikacja przez npm trusted publishing (bez tokenów)",
+        "uk": "Публікація через npm trusted publishing (без токенів)",
+        "zh-cn": "通过 npm 可信发布进行发布（无需令牌）"
+      },
       "0.4.0": {
         "en": "Translations, icon, automatic tests and npm release",
         "de": "Übersetzungen, Icon, automatische Tests und npm-Veröffentlichung",
