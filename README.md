@@ -20,7 +20,8 @@ Control a **Nubert X-Sub** subwoofer from ioBroker via Bluetooth LE.
 | `refresh` | button | read status now |
 | `firmware`, `lastReply`, `error` | string, ro | diagnostics |
 | `raw` | string, rw | send raw hex bytes (experts only) |
-| `info.connection` | boolean, ro | BLE connection currently open |
+| `info.connection` | boolean, ro | sub reachable (last connect succeeded) – instance status green/red |
+| `bleConnected` | boolean, ro | BLE link open right now (only for a few seconds per command) |
 
 The sub accepts **only one BLE connection**. The adapter connects on demand and disconnects a few
 seconds after the last activity, so the X-Remote app can still be used in between.
@@ -69,17 +70,26 @@ Then add an instance.
 
 1. Make sure the sub is powered and the **X-Remote app is disconnected** (close it on the phone).
 2. Open the instance settings and press **Search sub (10 s)**.
-   The address of the nearest Nubert device is entered automatically. Press **Save**.
+   The address of the nearest Nubert device is entered and saved automatically.
 3. Alternatively enter the address by hand. Find it with `bluetoothctl` → `scan le` → line *nubert X-Sub*.
 
 Other settings: Bluetooth adapter (empty = default, e.g. `hci1` for a second dongle),
 delay of the status read-back, idle time until disconnect.
 
-### 4. Troubleshooting
+### 4. Status and error messages
+
+- **Instance status** ("connected to device or service"): green while the sub is reachable,
+  red after the start or after a command failed to connect (5 attempts).
+- State **`error`**: text of the last error, empty again after the next success.
+- **Log**: `error` = sub or Bluetooth adapter not reachable, `warn` = single command failed,
+  `info` = start, search results, connect needed several attempts, `debug` = all bytes sent/received.
+- There is no automatic retry in the background; the next command or `refresh` tries again.
+
+### 5. Troubleshooting
 
 | Symptom | Cause / fix |
 |---|---|
-| *no BLE connection (is the vendor app connected?)* | Close the X-Remote app. While it is connected the sub is invisible. |
+| *sub not reachable (… attempts; …)* | Close the X-Remote app (while it is connected the sub is invisible), check power and distance. |
 | *Search sub*: nothing found | Sub without power, app connected, or too far away. |
 | *Bluetooth adapter … not available* | No controller: see step 1, or wrong name in "Bluetooth adapter". |
 | Kernel log `command 0x200c tx timeout`, adapter resets | Known issue of Realtek RTL8761B dongles. The adapter retries; a dongle with another chip (Intel, CSR, Broadcom) avoids it. |
@@ -138,23 +148,38 @@ Danach eine Instanz anlegen.
 
 1. Sub am Strom, **X-Remote-App getrennt** (am Handy schließen).
 2. Instanz-Einstellungen öffnen, **Sub suchen (10 s)** drücken.
-   Die Adresse des nächstgelegenen Nubert-Geräts wird eingetragen. **Speichern** drücken.
+   Die Adresse des nächstgelegenen Nubert-Geräts wird eingetragen und automatisch gespeichert.
 3. Oder Adresse von Hand eintragen. Finden mit `bluetoothctl` → `scan le` → Zeile *nubert X-Sub*.
 
 Weitere Einstellungen: Bluetooth-Adapter (leer = Standard, z. B. `hci1` für einen zweiten Stick),
 Wartezeit für das Status-Rücklesen, Leerlaufzeit bis zum Trennen.
 
-### 4. Fehlerbehebung
+### 4. Status und Fehlermeldungen
+
+- **Instanzstatus** („Verbunden mit Gerät oder Dienst“): grün, solange der Sub erreichbar ist,
+  rot nach Start oder Befehl, wenn keine Verbindung zustande kam (5 Versuche).
+- Datenpunkt **`error`**: Text des letzten Fehlers, beim nächsten Erfolg wieder leer.
+- **Log**: `error` = Sub oder Bluetooth-Adapter nicht erreichbar, `warn` = einzelner Befehl fehlgeschlagen,
+  `info` = Start, Suchergebnis, Verbindung brauchte mehrere Versuche, `debug` = alle gesendeten/empfangenen Bytes.
+- Es gibt keine automatische Wiederholung im Hintergrund; der nächste Befehl oder `refresh` versucht es erneut.
+
+### 5. Fehlerbehebung
 
 | Meldung / Verhalten | Ursache / Lösung |
 |---|---|
-| *no BLE connection (is the vendor app connected?)* | X-Remote-App schließen. Solange sie verbunden ist, ist der Sub unsichtbar. |
+| *sub not reachable (… attempts; …)* | X-Remote-App schließen (solange sie verbunden ist, ist der Sub unsichtbar), Strom und Abstand prüfen. |
 | *Sub suchen*: nichts gefunden | Sub ohne Strom, App verbunden oder zu weit weg. |
 | *Bluetooth adapter … not available* | Kein Controller: siehe Schritt 1, oder falscher Name bei „Bluetooth-Adapter“. |
 | Kernel-Log `command 0x200c tx timeout`, Stick setzt sich zurück | Bekanntes Problem von Realtek-RTL8761B-Sticks. Der Adapter versucht es erneut; ein Stick mit anderem Chip (Intel, CSR, Broadcom) behebt es. |
 | Schalten dauert mehrere Sekunden | Erster Verbindungsversuch von BlueZ abgebrochen (`le-connection-abort-by-local`); neuer Versuch nach 1 s. Details im Debug-Log. |
 
 ## Changelog
+
+### 0.3.0
+- `info.connection` now means "sub reachable": instance status stays green between commands
+- New state `bleConnected` for the short BLE link
+- Failed connects (5 attempts) are logged as error and turn the instance status red
+- Search saves the found address automatically
 
 ### 0.2.0
 - Button "Search sub" in the instance settings

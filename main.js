@@ -18,7 +18,18 @@ const P = require('./lib/protocol');
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const MAC_RE = /^([0-9A-F]{2}:){5}[0-9A-F]{2}$/;
 const CONNECT_ATTEMPTS = 5;
-const WAKE_DELAY = 4000; // the sub needs a moment after power-on before it reports values
+const WAKE_DELAY = 4000;
+
+/**
+ * Error meaning "the sub cannot be reached" (logged as error, instance status red).
+ *
+ * @param {string} msg message
+ */
+function noConnection(msg) {
+    const e = new Error(msg);
+    e.code = 'NO_CONNECTION';
+    return e;
+} // the sub needs a moment after power-on before it reports values
 
 const STATES = {
     power: { type: 'boolean', role: 'switch.power', read: true, write: true, name: { en: 'Power (on / standby)', de: 'Ein (an / Standby)' } },
@@ -26,6 +37,7 @@ const STATES = {
     lowpass: { type: 'number', role: 'level', read: true, write: true, unit: 'Hz', min: P.LOWPASS_MIN, max: P.LOWPASS_MAX, step: 5, name: { en: 'Low-pass frequency', de: 'Tiefpass-Frequenz' } },
     phase180: { type: 'boolean', role: 'switch', read: true, write: true, name: { en: 'Phase 180°', de: 'Phase 180°' } },
     roomEq: { type: 'boolean', role: 'indicator', read: true, write: false, name: { en: 'Room EQ active', de: 'Raum-EQ aktiv' } },
+    bleConnected: { type: 'boolean', role: 'indicator.connected', read: true, write: false, name: { en: 'BLE link open right now', de: 'BLE-Verbindung gerade offen' } },
     refresh: { type: 'boolean', role: 'button', read: false, write: true, name: { en: 'Read status now', de: 'Status jetzt lesen' } },
     raw: { type: 'string', role: 'text', read: true, write: true, name: { en: 'Raw command (hex, experts only)', de: 'Rohbefehl (Hex, nur für Experten)' } },
     firmware: { type: 'string', role: 'info.firmware', read: true, write: false, name: { en: 'Firmware', de: 'Firmware' } },
@@ -99,7 +111,12 @@ class NubertSub extends utils.Adapter {
                 await fn();
                 await this.setStateChangedAsync('error', '', true);
             } catch (e) {
-                this.log.warn(`${label}: ${e.message}`);
+                if (e.code === 'NO_CONNECTION') {
+                    this.log.error(`${label}: ${e.message}`);
+                    await this.setState('info.connection', false, true); // instance status turns red
+                } else {
+                    this.log.warn(`${label}: ${e.message}`);
+                }
                 await this.setState('error', `${label}: ${e.message}`, true);
                 await this.disconnect();
             }
@@ -137,10 +154,12 @@ class NubertSub extends utils.Adapter {
         }
         const adapter = await this.getBtAdapter();
         if (!(await adapter.isPowered())) {
-            throw new Error(`Bluetooth adapter ${await adapter.getName().catch(() => '')} is not powered`);
+            throw noConnection(`Bluetooth adapter ${await adapter.getName().catch(() => '')} is not powered`);
         }
         let last;
+        let tries = 0;
         for (let attempt = 1; attempt <= CONNECT_ATTEMPTS && !this.stopping; attempt++) {
+            tries = attempt;
             try {
                 const device = await this.getDevice(adapter);
                 if (await device.isConnected()) {
@@ -157,10 +176,11 @@ class NubertSub extends utils.Adapter {
                 device.once('disconnect', () => {
                     this.log.debug('BLE disconnected');
                     this.conn = null;
-                    this.setState('info.connection', false, true);
+                    this.setState('bleConnected', false, true);
                 });
                 this.conn = { device, char };
-                await this.setState('info.connection', true, true);
+                await this.setState('bleConnected', true, true);
+                await this.setState('info.connection', true, true); // sub reachable: instance status green
                 if (attempt > 1) {
                     this.log.info(`BLE connected after ${attempt} attempts`);
                 }
@@ -172,13 +192,18 @@ class NubertSub extends utils.Adapter {
                 return;
             } catch (e) {
                 last = e;
+                if (e.final) {
+                    break;
+                }
                 // BlueZ often aborts the first attempt right away (le-connection-abort-by-local);
                 // a quick retry usually succeeds
                 this.log.debug(`Connect attempt ${attempt} failed: ${e.message}`);
                 await sleep(attempt < 3 ? 1000 : 3000);
             }
         }
-        throw new Error(`no BLE connection (is the vendor app connected?): ${last && last.message}`);
+        throw noConnection(
+            `sub not reachable (${tries} attempt${tries === 1 ? '' : 's'}; powered? X-Remote app connected? in range?): ${last && last.message}`,
+        );
     }
 
     async getBtAdapter() {
@@ -186,7 +211,7 @@ class NubertSub extends utils.Adapter {
         try {
             return hci ? await this.bt.getAdapter(hci) : await this.bt.defaultAdapter();
         } catch (e) {
-            throw new Error(`Bluetooth adapter ${hci || '(default)'} not available: ${e.message}`);
+            throw noConnection(`Bluetooth adapter ${hci || '(default)'} not available: ${e.message}`);
         }
     }
 
@@ -209,6 +234,9 @@ class NubertSub extends utils.Adapter {
         let device;
         try {
             device = await adapter.waitDevice(this.mac, 30000);
+        } catch {
+            // retrying makes no sense: the next attempt would search another 30 s
+            throw Object.assign(new Error(`${this.mac} not found during 30 s search`), { final: true });
         } finally {
             if (started) {
                 await adapter.stopDiscovery().catch(() => {});
@@ -256,7 +284,7 @@ class NubertSub extends utils.Adapter {
         } catch (e) {
             this.log.debug(`disconnect: ${e.message}`);
         }
-        await this.setState('info.connection', false, true);
+        await this.setState('bleConnected', false, true);
     }
 
     onNotify(buf) {
@@ -356,7 +384,12 @@ class NubertSub extends utils.Adapter {
             }
             const list = found.map(d => `${d.name} (${d.mac}${d.rssi !== null ? `, ${d.rssi} dBm` : ''})`).join(', ');
             // admin shows the text from jsonConfig "result.found" with %s replaced by args
-            reply({ native: { mac: found[0].mac }, result: 'found', args: [`${found[0].name} ${found[0].mac}`, list] });
+            reply({
+                native: { mac: found[0].mac },
+                saveConfig: true,
+                result: 'found',
+                args: [`${found[0].name} ${found[0].mac}`, list],
+            });
         } catch (e) {
             this.log.warn(`Search failed: ${e.message}`);
             reply({ error: e.message });

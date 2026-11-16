@@ -9,8 +9,8 @@
         "de": "Bluetooth-Adresse des Subs"
       },
       "help": {
-        "en": "e.g. CC:90:93:10:E2:DA",
-        "de": "z. B. CC:90:93:10:E2:DA"
+        "en": "e.g. AA:BB:CC:DD:EE:FF, or use the search button",
+        "de": "z. B. AA:BB:CC:DD:EE:FF, oder Such-Knopf nutzen"
       },
       "validator": "/^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(data.mac)",
       "validatorNoSaveOnError": true,
@@ -37,8 +37,8 @@
       "md": 6,
       "result": {
         "found": {
-          "en": "Entered: %s\nFound: %s\nPlease save.",
-          "de": "Eingetragen: %s\nGefunden: %s\nBitte speichern."
+          "en": "Entered and saved: %s\nFound: %s",
+          "de": "Eingetragen und gespeichert: %s\nGefunden: %s"
         }
       }
     },

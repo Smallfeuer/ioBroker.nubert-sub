@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "news": {
+      "0.3.0": {
+        "en": "Instance status green while the sub is reachable; errors after failed connects",
+        "de": "Instanzstatus grün, solange der Sub erreichbar ist; Fehlermeldung nach gescheiterten Verbindungen"
+      },
       "0.2.0": {
         "en": "Search button in settings, setup guide",
         "de": "Knopf \"Sub suchen\" in den Einstellungen, Einrichtungsanleitung"
@@ -83,8 +87,8 @@
       "common": {
         "role": "indicator.connected",
         "name": {
-          "en": "BLE connection active",
-          "de": "BLE-Verbindung aktiv"
+          "en": "Sub reachable (last connect succeeded)",
+          "de": "Sub erreichbar (letzte Verbindung erfolgreich)"
         },
         "type": "boolean",
         "read": true,
