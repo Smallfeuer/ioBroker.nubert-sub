@@ -56,6 +56,9 @@ projects [nubertctl](https://github.com/trougnouf/nubertctl) and
 
 ## Changelog
 
+### 0.1.1
+- Faster connect retries (BlueZ `le-connection-abort-by-local`)
+
 ### 0.1.0
 - Initial version
 

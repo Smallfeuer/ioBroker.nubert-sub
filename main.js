@@ -17,6 +17,7 @@ const P = require('./lib/protocol');
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const MAC_RE = /^([0-9A-F]{2}:){5}[0-9A-F]{2}$/;
+const CONNECT_ATTEMPTS = 5;
 const WAKE_DELAY = 4000; // the sub needs a moment after power-on before it reports values
 
 const STATES = {
@@ -137,7 +138,7 @@ class NubertSub extends utils.Adapter {
             throw new Error(`Bluetooth adapter ${await adapter.getName().catch(() => '')} is not powered`);
         }
         let last;
-        for (let attempt = 1; attempt <= 3 && !this.stopping; attempt++) {
+        for (let attempt = 1; attempt <= CONNECT_ATTEMPTS && !this.stopping; attempt++) {
             try {
                 const device = await this.getDevice(adapter);
                 if (await device.isConnected()) {
@@ -158,6 +159,9 @@ class NubertSub extends utils.Adapter {
                 });
                 this.conn = { device, char };
                 await this.setState('info.connection', true, true);
+                if (attempt > 1) {
+                    this.log.info(`BLE connected after ${attempt} attempts`);
+                }
                 this.log.debug(`BLE connected (attempt ${attempt})`);
                 await this.write(P.PASSWORD_REQ);
                 await sleep(500);
@@ -166,8 +170,10 @@ class NubertSub extends utils.Adapter {
                 return;
             } catch (e) {
                 last = e;
-                this.log.info(`Connect attempt ${attempt} failed: ${e.message}`);
-                await sleep(5000);
+                // BlueZ often aborts the first attempt right away (le-connection-abort-by-local);
+                // a quick retry usually succeeds
+                this.log.debug(`Connect attempt ${attempt} failed: ${e.message}`);
+                await sleep(attempt < 3 ? 1000 : 3000);
             }
         }
         throw new Error(`no BLE connection (is the vendor app connected?): ${last && last.message}`);

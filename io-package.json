@@ -1,8 +1,12 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "news": {
+      "0.1.1": {
+        "en": "Faster connect retries",
+        "de": "Schnellere Verbindungswiederholung"
+      },
       "0.1.0": {
         "en": "Initial version",
         "de": "Erste Version"
