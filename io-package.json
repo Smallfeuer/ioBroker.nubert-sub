@@ -28,58 +28,6 @@
         "pl": "Tłumaczenia, ikona, testy automatyczne i publikacja w npm",
         "uk": "Переклади, значок, автоматичні тести та випуск у npm",
         "zh-cn": "翻译、图标、自动测试和 npm 发布"
-      },
-      "0.3.0": {
-        "en": "Instance status green while the sub is reachable; errors after failed connects",
-        "de": "Instanzstatus grün, solange der Sub erreichbar ist; Fehlermeldung nach gescheiterten Verbindungen",
-        "ru": "Статус экземпляра зелёный, пока сабвуфер доступен; ошибки после неудачных подключений",
-        "pt": "Estado da instância verde enquanto o subwoofer está acessível; erros após falhas de ligação",
-        "nl": "Instantiestatus groen zolang de subwoofer bereikbaar is; fouten na mislukte verbindingen",
-        "fr": "Statut de l’instance vert tant que le caisson est joignable ; erreurs après échec de connexion",
-        "it": "Stato dell’istanza verde finché il subwoofer è raggiungibile; errori dopo connessioni fallite",
-        "es": "Estado de la instancia verde mientras el subwoofer es accesible; errores tras conexiones fallidas",
-        "pl": "Status instancji zielony, gdy subwoofer jest osiągalny; błędy po nieudanych połączeniach",
-        "uk": "Статус екземпляра зелений, поки сабвуфер доступний; помилки після невдалих з’єднань",
-        "zh-cn": "低音炮可达时实例状态为绿色；连接失败后报错"
-      },
-      "0.2.0": {
-        "en": "Search button in settings, setup guide",
-        "de": "Knopf \"Sub suchen\" in den Einstellungen, Einrichtungsanleitung",
-        "ru": "Кнопка поиска в настройках, инструкция по настройке",
-        "pt": "Botão de pesquisa nas definições, guia de configuração",
-        "nl": "Zoekknop in de instellingen, installatiehandleiding",
-        "fr": "Bouton de recherche dans les paramètres, guide d’installation",
-        "it": "Pulsante di ricerca nelle impostazioni, guida di configurazione",
-        "es": "Botón de búsqueda en la configuración, guía de instalación",
-        "pl": "Przycisk wyszukiwania w ustawieniach, instrukcja konfiguracji",
-        "uk": "Кнопка пошуку в налаштуваннях, інструкція з налаштування",
-        "zh-cn": "设置中的搜索按钮，安装指南"
-      },
-      "0.1.1": {
-        "en": "Faster connect retries",
-        "de": "Schnellere Verbindungswiederholung",
-        "ru": "Более быстрые повторные подключения",
-        "pt": "Novas tentativas de ligação mais rápidas",
-        "nl": "Snellere nieuwe verbindingspogingen",
-        "fr": "Nouvelles tentatives de connexion plus rapides",
-        "it": "Nuovi tentativi di connessione più rapidi",
-        "es": "Reintentos de conexión más rápidos",
-        "pl": "Szybsze ponawianie połączenia",
-        "uk": "Швидші повторні спроби з’єднання",
-        "zh-cn": "更快的重新连接"
-      },
-      "0.1.0": {
-        "en": "Initial version",
-        "de": "Erste Version",
-        "ru": "Первая версия",
-        "pt": "Versão inicial",
-        "nl": "Eerste versie",
-        "fr": "Version initiale",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsza wersja",
-        "uk": "Перша версія",
-        "zh-cn": "初始版本"
       }
     },
     "titleLang": {
