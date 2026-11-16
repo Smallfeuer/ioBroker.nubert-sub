@@ -1,6 +1,6 @@
 {
   "name": "iobroker.nubert-sub",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Control a Nubert X-Sub subwoofer via Bluetooth LE (unofficial)",
   "author": {
     "name": "Smallfeuer",
@@ -27,7 +27,7 @@
     "node": ">=22"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.2.3",
+    "@iobroker/adapter-core": "^3.4.3",
     "dbus-next": "^0.10.2",
     "node-ble": "^1.13.0"
   },
@@ -37,7 +37,8 @@
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:js && npm run test:package",
     "lint": "eslint -c eslint.config.mjs .",
-    "release": "release-script"
+    "release": "release-script",
+    "translate": "translate-adapter"
   },
   "repository": {
     "type": "git",
@@ -52,8 +53,12 @@
     "@alcalzone/release-script-plugin-iobroker": "^5.2.0",
     "@alcalzone/release-script-plugin-license": "^5.2.2",
     "@alcalzone/release-script-plugin-manual-review": "^5.2.0",
+    "@iobroker/adapter-dev": "^1.5.0",
     "@iobroker/eslint-config": "^2.3.4",
     "@iobroker/testing": "^6.3.2",
-    "mocha": "^11.8.0"
-  }
+    "@types/node": "^22.19.0"
+  },
+  "os": [
+    "linux"
+  ]
 }

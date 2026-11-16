@@ -15,7 +15,6 @@ const { createBluetooth } = require('node-ble');
 const { Variant } = require('dbus-next');
 const P = require('./lib/protocol');
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const MAC_RE = /^([0-9A-F]{2}:){5}[0-9A-F]{2}$/;
 const CONNECT_ATTEMPTS = 5;
 const WAKE_DELAY = 4000;
@@ -155,7 +154,7 @@ class NubertSub extends utils.Adapter {
         this.subscribeStates('*');
         this.enqueue('start-up', async () => {
             await this.write(P.FIRMWARE_REQ);
-            await sleep(1000);
+            await this.delay(1000);
             await this.write(P.STATUS_REQ);
         });
     }
@@ -179,7 +178,7 @@ class NubertSub extends utils.Adapter {
             if (this.stopping) {
                 return;
             }
-            clearTimeout(this.idleTimer);
+            this.clearTimer(this.idleTimer);
             try {
                 await this.ensureConnected();
                 await fn();
@@ -198,19 +197,30 @@ class NubertSub extends utils.Adapter {
         });
     }
 
+    /**
+     * Clear an ioBroker timer if it is set.
+     *
+     * @param {ioBroker.Timeout | undefined | null} timer timer
+     */
+    clearTimer(timer) {
+        if (timer) {
+            this.clearTimeout(timer);
+        }
+    }
+
     scheduleIdle() {
-        clearTimeout(this.idleTimer);
+        this.clearTimer(this.idleTimer);
         if (this.readbackTimer || !this.conn || this.stopping) {
             return; // stay connected until the pending read-back is done
         }
-        this.idleTimer = setTimeout(() => {
+        this.idleTimer = this.setTimeout(() => {
             this.queue = this.queue.then(() => this.disconnect());
         }, this.idleDelay);
     }
 
     scheduleReadback() {
-        clearTimeout(this.readbackTimer);
-        this.readbackTimer = setTimeout(() => {
+        this.clearTimer(this.readbackTimer);
+        this.readbackTimer = this.setTimeout(() => {
             this.readbackTimer = null;
             this.enqueue('read-back', () => this.write(P.STATUS_REQ));
         }, this.readbackDelay);
@@ -240,7 +250,7 @@ class NubertSub extends utils.Adapter {
                     // stale BlueZ connection: the sub does not advertise while one exists
                     this.log.info('Closing stale BlueZ connection');
                     await device.disconnect().catch(() => {});
-                    await sleep(2000);
+                    await this.delay(2000);
                 }
                 await device.connect();
                 const gatt = await device.gatt();
@@ -260,9 +270,9 @@ class NubertSub extends utils.Adapter {
                 }
                 this.log.debug(`BLE connected (attempt ${attempt})`);
                 await this.write(P.PASSWORD_REQ);
-                await sleep(500);
+                await this.delay(500);
                 await this.write(P.INDICATION_ON);
-                await sleep(500);
+                await this.delay(500);
                 return;
             } catch (e) {
                 last = e;
@@ -272,7 +282,7 @@ class NubertSub extends utils.Adapter {
                 // BlueZ often aborts the first attempt right away (le-connection-abort-by-local);
                 // a quick retry usually succeeds
                 this.log.debug(`Connect attempt ${attempt} failed: ${e.message}`);
-                await sleep(attempt < 3 ? 1000 : 3000);
+                await this.delay(attempt < 3 ? 1000 : 3000);
             }
         }
         throw noConnection(
@@ -345,7 +355,7 @@ class NubertSub extends utils.Adapter {
     }
 
     async disconnect() {
-        clearTimeout(this.idleTimer);
+        this.clearTimer(this.idleTimer);
         const conn = this.conn;
         this.conn = null;
         if (!conn) {
@@ -397,7 +407,7 @@ class NubertSub extends utils.Adapter {
             await adapter.startDiscovery();
         }
         try {
-            await sleep(seconds * 1000);
+            await this.delay(seconds * 1000);
         } finally {
             if (started) {
                 await adapter.stopDiscovery().catch(() => {});
@@ -500,7 +510,7 @@ class NubertSub extends utils.Adapter {
         this.enqueue(key, async () => {
             await this.write(bytes);
             if (key === 'power' && bytes[2] === 0x00) {
-                await sleep(WAKE_DELAY);
+                await this.delay(WAKE_DELAY);
                 await this.write(P.STATUS_REQ);
             }
         });
@@ -508,9 +518,9 @@ class NubertSub extends utils.Adapter {
 
     onUnload(callback) {
         this.stopping = true;
-        clearTimeout(this.readbackTimer);
-        clearTimeout(this.idleTimer);
-        const timeout = sleep(3000);
+        this.clearTimer(this.readbackTimer);
+        this.clearTimer(this.idleTimer);
+        const timeout = this.delay(3000);
         Promise.race([this.disconnect(), timeout])
             .catch(() => {})
             .finally(() => {

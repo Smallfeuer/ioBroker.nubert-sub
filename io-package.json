@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.4.1",
+    "version": "0.4.2",
     "news": {
+      "0.4.2": {
+        "en": "Fixes from the ioBroker repository check (timers, dependencies, Node.js 26 tests)",
+        "de": "Korrekturen aus der ioBroker-Repository-Prüfung (Timer, Abhängigkeiten, Tests mit Node.js 26)",
+        "ru": "Исправления по результатам проверки репозитория ioBroker (таймеры, зависимости, тесты Node.js 26)",
+        "pt": "Correções da verificação do repositório ioBroker (temporizadores, dependências, testes Node.js 26)",
+        "nl": "Correcties uit de ioBroker-repositorycontrole (timers, afhankelijkheden, Node.js 26-tests)",
+        "fr": "Corrections issues du contrôle du dépôt ioBroker (minuteries, dépendances, tests Node.js 26)",
+        "it": "Correzioni dal controllo del repository ioBroker (timer, dipendenze, test Node.js 26)",
+        "es": "Correcciones de la revisión del repositorio de ioBroker (temporizadores, dependencias, pruebas con Node.js 26)",
+        "pl": "Poprawki z kontroli repozytorium ioBroker (timery, zależności, testy Node.js 26)",
+        "uk": "Виправлення за результатами перевірки репозиторію ioBroker (таймери, залежності, тести Node.js 26)",
+        "zh-cn": "根据 ioBroker 仓库检查进行的修复（定时器、依赖项、Node.js 26 测试）"
+      },
       "0.4.1": {
         "en": "Release via npm trusted publishing (no tokens)",
         "de": "Veröffentlichung per npm Trusted Publishing (ohne Tokens)",
@@ -94,7 +107,7 @@
     ],
     "globalDependencies": [
       {
-        "admin": ">=7.4.10"
+        "admin": ">=7.6.17"
       }
     ]
   },
