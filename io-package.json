@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.4.4",
+    "version": "0.4.5",
     "news": {
-      "0.4.4": {
+      "0.4.5": {
         "en": "Type checking, clean shutdown without warning, Dependabot auto-merge, older changelog moved",
         "de": "Typprüfung, sauberes Beenden ohne Warnung, automatisches Übernehmen von Dependabot-Updates, älterer Changelog ausgelagert",
         "ru": "Проверка типов, корректное завершение без предупреждения, автослияние Dependabot, старый журнал изменений вынесен",

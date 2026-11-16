@@ -18,16 +18,15 @@ const NAMES = require('./lib/names');
 
 const MAC_RE = /^([0-9A-F]{2}:){5}[0-9A-F]{2}$/;
 const CONNECT_ATTEMPTS = 5;
-const WAKE_DELAY = 4000;
+const WAKE_DELAY = 4000; // the sub needs a moment after power-on before it reports values
 
 /**
  * D-Bus helper of node-ble objects (not part of the node-ble typings).
  *
- * set set a D-Bus property
- *
- * prop read a D-Bus property
- *
- * callMethod call a D-Bus method
+ * @typedef {object} BusHelper
+ * @property {(name: string, value: unknown) => Promise<void>} set set a D-Bus property
+ * @property {(name: string) => Promise<unknown>} prop read a D-Bus property
+ * @property {(name: string, ...args: unknown[]) => Promise<unknown>} callMethod call a D-Bus method
  */
 
 /**
@@ -37,7 +36,9 @@ const WAKE_DELAY = 4000;
  * @returns {{ helper: BusHelper, dbus: import('node:events').EventEmitter }} the same object, typed
  */
 function bleInternals(obj) {
-    return obj;
+    return /** @type {{ helper: BusHelper, dbus: import('node:events').EventEmitter }} */ (
+        /** @type {unknown} */ (obj)
+    );
 }
 
 /**
@@ -47,8 +48,9 @@ function bleInternals(obj) {
  */
 function noConnection(msg) {
     return Object.assign(new Error(msg), { code: 'NO_CONNECTION' });
-} // the sub needs a moment after power-on before it reports values
+}
 
+/** @type {Record<string, ioBroker.StateCommon>} */
 const STATES = {
     power: {
         type: 'boolean',
@@ -440,6 +442,7 @@ class NubertSub extends utils.Adapter {
                 await adapter.stopDiscovery().catch(() => {});
             }
         }
+        /** @type {{ mac: string, name: string, rssi: number | null }[]} */
         const found = [];
         for (const mac of await adapter.devices()) {
             const dev = await adapter.getDevice(mac).catch(() => null);

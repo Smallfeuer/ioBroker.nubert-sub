@@ -108,7 +108,7 @@ projects [nubertctl](https://github.com/trougnouf/nubertctl) and
     ### **WORK IN PROGRESS**
 -->
 
-### 0.4.4
+### 0.4.5
 - Type checking (tsconfig, `npm run check`), admin >= 7.6.20
 - Clean shutdown without "delay called" warning
 - Dependabot: auto-merge of patch/minor updates after all checks passed
