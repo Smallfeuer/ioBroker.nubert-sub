@@ -33,5 +33,13 @@
   },
   "scripts": {
     "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Smallfeuer/ioBroker.nubert-sub.git"
+  },
+  "homepage": "https://github.com/Smallfeuer/ioBroker.nubert-sub",
+  "bugs": {
+    "url": "https://github.com/Smallfeuer/ioBroker.nubert-sub/issues"
   }
 }

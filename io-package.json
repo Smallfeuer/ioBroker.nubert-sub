@@ -39,7 +39,7 @@
     "tier": 3,
     "enabled": true,
     "loglevel": "info",
-    "readme": "https://github.com/selftaxadmin/ioBroker.nubert-sub/blob/main/README.md",
+    "readme": "https://github.com/Smallfeuer/ioBroker.nubert-sub/blob/main/README.md",
     "dependencies": [
       {
         "js-controller": ">=5.0.19"
