@@ -1,0 +1,13 @@
+{
+  "Bluetooth address of the sub": "Bluetooth address of the sub",
+  "e.g. AA:BB:CC:DD:EE:FF, or use the search button": "e.g. AA:BB:CC:DD:EE:FF, or use the search button",
+  "Search sub (10 s)": "Search sub (10 s)",
+  "Instance must be running. Disconnect the X-Remote app first.": "Instance must be running. Disconnect the X-Remote app first.",
+  "Entered and saved: %s\nFound: %s": "Entered and saved: %s\nFound: %s",
+  "Bluetooth adapter (empty = default)": "Bluetooth adapter (empty = default)",
+  "e.g. hci0": "e.g. hci0",
+  "Read status after last command (s)": "Read status after last command (s)",
+  "Disconnect when idle (s)": "Disconnect when idle (s)",
+  "The sub allows only one connection; the vendor app can connect after this": "The sub allows only one connection; the vendor app can connect after this",
+  "GATT characteristic (experts)": "GATT characteristic (experts)"
+}

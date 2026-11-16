@@ -2,7 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const P = require('../lib/protocol');
+const P = require('../../lib/protocol');
 
 test('power on/off with length byte', () => {
     assert.deepEqual(P.encode('power', true), [0x1f, 0x01, 0x00]);

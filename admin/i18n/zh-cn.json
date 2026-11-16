@@ -1,0 +1,13 @@
+{
+  "Bluetooth address of the sub": "低音炮的蓝牙地址",
+  "e.g. AA:BB:CC:DD:EE:FF, or use the search button": "例如 AA:BB:CC:DD:EE:FF，或使用搜索按钮",
+  "Search sub (10 s)": "搜索低音炮（10 秒）",
+  "Instance must be running. Disconnect the X-Remote app first.": "实例必须正在运行。请先断开 X-Remote 应用。",
+  "Entered and saved: %s\nFound: %s": "已填入并保存：%s\n找到：%s",
+  "Bluetooth adapter (empty = default)": "蓝牙适配器（留空 = 默认）",
+  "e.g. hci0": "例如 hci0",
+  "Read status after last command (s)": "最后一条命令后读取状态（秒）",
+  "Disconnect when idle (s)": "空闲时断开（秒）",
+  "The sub allows only one connection; the vendor app can connect after this": "低音炮只允许一个连接；之后厂商应用可以连接",
+  "GATT characteristic (experts)": "GATT 特征（专家）"
+}

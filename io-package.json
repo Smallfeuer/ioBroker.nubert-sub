@@ -1,32 +1,99 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "news": {
+      "0.4.0": {
+        "en": "Translations, icon, automatic tests and npm release",
+        "de": "Übersetzungen, Icon, automatische Tests und npm-Veröffentlichung",
+        "ru": "Переводы, значок, автоматические тесты и выпуск в npm",
+        "pt": "Traduções, ícone, testes automáticos e publicação no npm",
+        "nl": "Vertalingen, pictogram, automatische tests en npm-release",
+        "fr": "Traductions, icône, tests automatiques et publication npm",
+        "it": "Traduzioni, icona, test automatici e rilascio su npm",
+        "es": "Traducciones, icono, pruebas automáticas y publicación en npm",
+        "pl": "Tłumaczenia, ikona, testy automatyczne i publikacja w npm",
+        "uk": "Переклади, значок, автоматичні тести та випуск у npm",
+        "zh-cn": "翻译、图标、自动测试和 npm 发布"
+      },
       "0.3.0": {
         "en": "Instance status green while the sub is reachable; errors after failed connects",
-        "de": "Instanzstatus grün, solange der Sub erreichbar ist; Fehlermeldung nach gescheiterten Verbindungen"
+        "de": "Instanzstatus grün, solange der Sub erreichbar ist; Fehlermeldung nach gescheiterten Verbindungen",
+        "ru": "Статус экземпляра зелёный, пока сабвуфер доступен; ошибки после неудачных подключений",
+        "pt": "Estado da instância verde enquanto o subwoofer está acessível; erros após falhas de ligação",
+        "nl": "Instantiestatus groen zolang de subwoofer bereikbaar is; fouten na mislukte verbindingen",
+        "fr": "Statut de l’instance vert tant que le caisson est joignable ; erreurs après échec de connexion",
+        "it": "Stato dell’istanza verde finché il subwoofer è raggiungibile; errori dopo connessioni fallite",
+        "es": "Estado de la instancia verde mientras el subwoofer es accesible; errores tras conexiones fallidas",
+        "pl": "Status instancji zielony, gdy subwoofer jest osiągalny; błędy po nieudanych połączeniach",
+        "uk": "Статус екземпляра зелений, поки сабвуфер доступний; помилки після невдалих з’єднань",
+        "zh-cn": "低音炮可达时实例状态为绿色；连接失败后报错"
       },
       "0.2.0": {
         "en": "Search button in settings, setup guide",
-        "de": "Knopf \"Sub suchen\" in den Einstellungen, Einrichtungsanleitung"
+        "de": "Knopf \"Sub suchen\" in den Einstellungen, Einrichtungsanleitung",
+        "ru": "Кнопка поиска в настройках, инструкция по настройке",
+        "pt": "Botão de pesquisa nas definições, guia de configuração",
+        "nl": "Zoekknop in de instellingen, installatiehandleiding",
+        "fr": "Bouton de recherche dans les paramètres, guide d’installation",
+        "it": "Pulsante di ricerca nelle impostazioni, guida di configurazione",
+        "es": "Botón de búsqueda en la configuración, guía de instalación",
+        "pl": "Przycisk wyszukiwania w ustawieniach, instrukcja konfiguracji",
+        "uk": "Кнопка пошуку в налаштуваннях, інструкція з налаштування",
+        "zh-cn": "设置中的搜索按钮，安装指南"
       },
       "0.1.1": {
         "en": "Faster connect retries",
-        "de": "Schnellere Verbindungswiederholung"
+        "de": "Schnellere Verbindungswiederholung",
+        "ru": "Более быстрые повторные подключения",
+        "pt": "Novas tentativas de ligação mais rápidas",
+        "nl": "Snellere nieuwe verbindingspogingen",
+        "fr": "Nouvelles tentatives de connexion plus rapides",
+        "it": "Nuovi tentativi di connessione più rapidi",
+        "es": "Reintentos de conexión más rápidos",
+        "pl": "Szybsze ponawianie połączenia",
+        "uk": "Швидші повторні спроби з’єднання",
+        "zh-cn": "更快的重新连接"
       },
       "0.1.0": {
         "en": "Initial version",
-        "de": "Erste Version"
+        "de": "Erste Version",
+        "ru": "Первая версия",
+        "pt": "Versão inicial",
+        "nl": "Eerste versie",
+        "fr": "Version initiale",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsza wersja",
+        "uk": "Перша версія",
+        "zh-cn": "初始版本"
       }
     },
     "titleLang": {
       "en": "Nubert X-Sub (Bluetooth)",
-      "de": "Nubert X-Sub (Bluetooth)"
+      "de": "Nubert X-Sub (Bluetooth)",
+      "ru": "Nubert X-Sub (Bluetooth)",
+      "pt": "Nubert X-Sub (Bluetooth)",
+      "nl": "Nubert X-Sub (Bluetooth)",
+      "fr": "Nubert X-Sub (Bluetooth)",
+      "it": "Nubert X-Sub (Bluetooth)",
+      "es": "Nubert X-Sub (Bluetooth)",
+      "pl": "Nubert X-Sub (Bluetooth)",
+      "uk": "Nubert X-Sub (Bluetooth)",
+      "zh-cn": "Nubert X-Sub (Bluetooth)"
     },
     "desc": {
-      "en": "Switch a Nubert X-Sub subwoofer on/off and set level, low-pass and phase via Bluetooth LE",
-      "de": "Nubert X-Sub Subwoofer per Bluetooth LE ein/aus schalten und Pegel, Tiefpass und Phase einstellen"
+      "en": "Switch a Nubert X-Sub subwoofer on/off and set level, low-pass and phase via Bluetooth LE (unofficial)",
+      "de": "Nubert X-Sub Subwoofer per Bluetooth LE ein/aus schalten und Pegel, Tiefpass und Phase einstellen (inoffiziell)",
+      "ru": "Включение/выключение сабвуфера Nubert X-Sub и настройка уровня, НЧ-фильтра и фазы через Bluetooth LE (неофициально)",
+      "pt": "Ligar/desligar um subwoofer Nubert X-Sub e ajustar nível, passa-baixo e fase via Bluetooth LE (não oficial)",
+      "nl": "Nubert X-Sub subwoofer aan/uit schakelen en niveau, laagdoorlaat en fase instellen via Bluetooth LE (onofficieel)",
+      "fr": "Allumer/éteindre un caisson Nubert X-Sub et régler niveau, passe-bas et phase via Bluetooth LE (non officiel)",
+      "it": "Accendere/spegnere un subwoofer Nubert X-Sub e regolare livello, passa-basso e fase via Bluetooth LE (non ufficiale)",
+      "es": "Encender/apagar un subwoofer Nubert X-Sub y ajustar nivel, paso bajo y fase por Bluetooth LE (no oficial)",
+      "pl": "Włączanie/wyłączanie subwoofera Nubert X-Sub oraz ustawianie poziomu, filtra dolnoprzepustowego i fazy przez Bluetooth LE (nieoficjalne)",
+      "uk": "Увімкнення/вимкнення сабвуфера Nubert X-Sub і налаштування рівня, ФНЧ та фази через Bluetooth LE (неофіційно)",
+      "zh-cn": "通过蓝牙 LE 开关 Nubert X-Sub 低音炮并设置音量、低通和相位（非官方）"
     },
     "authors": [
       "Smallfeuer <small@dclu.de>"
@@ -35,34 +102,40 @@
       "nubert",
       "subwoofer",
       "x-sub",
-      "bluetooth"
+      "bluetooth",
+      "ble"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "type": "free",
+      "license": "MIT"
+    },
     "platform": "Javascript/Node.js",
+    "icon": "nubert-sub.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/Smallfeuer/ioBroker.nubert-sub/main/admin/nubert-sub.png",
+    "readme": "https://github.com/Smallfeuer/ioBroker.nubert-sub/blob/main/README.md",
+    "loglevel": "info",
+    "tier": 3,
     "mode": "daemon",
     "type": "multimedia",
     "compact": false,
     "connectionType": "local",
     "dataSource": "push",
     "os": "linux",
+    "messagebox": true,
     "adminUI": {
       "config": "json"
     },
-    "tier": 3,
-    "enabled": true,
-    "loglevel": "info",
-    "readme": "https://github.com/Smallfeuer/ioBroker.nubert-sub/blob/main/README.md",
     "dependencies": [
       {
-        "js-controller": ">=5.0.19"
+        "js-controller": ">=6.0.11"
       }
     ],
     "globalDependencies": [
       {
-        "admin": ">=6.0.0"
+        "admin": ">=7.4.10"
       }
-    ],
-    "messagebox": true
+    ]
   },
   "native": {
     "mac": "",
@@ -77,7 +150,19 @@
       "_id": "info",
       "type": "channel",
       "common": {
-        "name": "Information"
+        "name": {
+          "en": "Information",
+          "de": "Informationen",
+          "ru": "Информация",
+          "pt": "Informação",
+          "nl": "Informatie",
+          "fr": "Informations",
+          "it": "Informazioni",
+          "es": "Información",
+          "pl": "Informacje",
+          "uk": "Інформація",
+          "zh-cn": "信息"
+        }
       },
       "native": {}
     },

@@ -1,0 +1,13 @@
+{
+  "Bluetooth address of the sub": "Endereço Bluetooth do subwoofer",
+  "e.g. AA:BB:CC:DD:EE:FF, or use the search button": "p. ex. AA:BB:CC:DD:EE:FF, ou use o botão de pesquisa",
+  "Search sub (10 s)": "Procurar subwoofer (10 s)",
+  "Instance must be running. Disconnect the X-Remote app first.": "A instância deve estar em execução. Desconecte primeiro o app X-Remote.",
+  "Entered and saved: %s\nFound: %s": "Inserido e guardado: %s\nEncontrado: %s",
+  "Bluetooth adapter (empty = default)": "Adaptador Bluetooth (vazio = padrão)",
+  "e.g. hci0": "p. ex. hci0",
+  "Read status after last command (s)": "Ler estado após o último comando (s)",
+  "Disconnect when idle (s)": "Desligar quando inativo (s)",
+  "The sub allows only one connection; the vendor app can connect after this": "O subwoofer permite apenas uma ligação; depois disso a app do fabricante pode ligar-se",
+  "GATT characteristic (experts)": "Característica GATT (especialistas)"
+}

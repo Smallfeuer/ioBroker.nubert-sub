@@ -1,0 +1,13 @@
+{
+  "Bluetooth address of the sub": "Bluetooth-adres van de subwoofer",
+  "e.g. AA:BB:CC:DD:EE:FF, or use the search button": "bijv. AA:BB:CC:DD:EE:FF, of gebruik de zoekknop",
+  "Search sub (10 s)": "Subwoofer zoeken (10 s)",
+  "Instance must be running. Disconnect the X-Remote app first.": "Instantie moet draaien. Verbreek eerst de verbinding met de X-Remote-app.",
+  "Entered and saved: %s\nFound: %s": "Ingevuld en opgeslagen: %s\nGevonden: %s",
+  "Bluetooth adapter (empty = default)": "Bluetooth-adapter (leeg = standaard)",
+  "e.g. hci0": "bijv. hci0",
+  "Read status after last command (s)": "Status lezen na laatste opdracht (s)",
+  "Disconnect when idle (s)": "Verbinding verbreken bij inactiviteit (s)",
+  "The sub allows only one connection; the vendor app can connect after this": "De subwoofer staat maar één verbinding toe; daarna kan de app van de fabrikant verbinden",
+  "GATT characteristic (experts)": "GATT-characteristic (experts)"
+}

@@ -1,0 +1,13 @@
+{
+  "Bluetooth address of the sub": "Bluetooth-адреса сабвуфера",
+  "e.g. AA:BB:CC:DD:EE:FF, or use the search button": "напр. AA:BB:CC:DD:EE:FF або кнопка пошуку",
+  "Search sub (10 s)": "Знайти сабвуфер (10 с)",
+  "Instance must be running. Disconnect the X-Remote app first.": "Екземпляр має працювати. Спочатку від’єднайте застосунок X-Remote.",
+  "Entered and saved: %s\nFound: %s": "Записано й збережено: %s\nЗнайдено: %s",
+  "Bluetooth adapter (empty = default)": "Bluetooth-адаптер (порожньо = типовий)",
+  "e.g. hci0": "напр. hci0",
+  "Read status after last command (s)": "Читання стану після останньої команди (с)",
+  "Disconnect when idle (s)": "Від’єднання під час простою (с)",
+  "The sub allows only one connection; the vendor app can connect after this": "Сабвуфер дозволяє лише одне з’єднання; після цього може під’єднатися застосунок виробника",
+  "GATT characteristic (experts)": "GATT-характеристика (для експертів)"
+}

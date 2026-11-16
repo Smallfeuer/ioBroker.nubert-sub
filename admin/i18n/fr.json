@@ -1,0 +1,13 @@
+{
+  "Bluetooth address of the sub": "Adresse Bluetooth du caisson",
+  "e.g. AA:BB:CC:DD:EE:FF, or use the search button": "p. ex. AA:BB:CC:DD:EE:FF, ou utilisez le bouton de recherche",
+  "Search sub (10 s)": "Rechercher le caisson (10 s)",
+  "Instance must be running. Disconnect the X-Remote app first.": "L'instance doit être active. Déconnectez d'abord l'application X-Remote.",
+  "Entered and saved: %s\nFound: %s": "Saisi et enregistré : %s\nTrouvé : %s",
+  "Bluetooth adapter (empty = default)": "Adaptateur Bluetooth (vide = par défaut)",
+  "e.g. hci0": "p. ex. hci0",
+  "Read status after last command (s)": "Lire l’état après la dernière commande (s)",
+  "Disconnect when idle (s)": "Déconnecter en cas d’inactivité (s)",
+  "The sub allows only one connection; the vendor app can connect after this": "Le caisson n’accepte qu’une connexion ; ensuite l’application du fabricant peut se connecter",
+  "GATT characteristic (experts)": "Caractéristique GATT (experts)"
+}

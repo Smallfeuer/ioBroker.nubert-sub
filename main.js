@@ -32,16 +32,84 @@ function noConnection(msg) {
 } // the sub needs a moment after power-on before it reports values
 
 const STATES = {
-    power: { type: 'boolean', role: 'switch.power', read: true, write: true, name: { en: 'Power (on / standby)', de: 'Ein (an / Standby)' } },
-    level: { type: 'number', role: 'level', read: true, write: true, unit: 'dB', min: P.LEVEL_MIN, max: P.LEVEL_MAX, step: 1, name: { en: 'Level', de: 'Pegel' } },
-    lowpass: { type: 'number', role: 'level', read: true, write: true, unit: 'Hz', min: P.LOWPASS_MIN, max: P.LOWPASS_MAX, step: 5, name: { en: 'Low-pass frequency', de: 'Tiefpass-Frequenz' } },
-    phase180: { type: 'boolean', role: 'switch', read: true, write: true, name: { en: 'Phase 180°', de: 'Phase 180°' } },
-    roomEq: { type: 'boolean', role: 'indicator', read: true, write: false, name: { en: 'Room EQ active', de: 'Raum-EQ aktiv' } },
-    bleConnected: { type: 'boolean', role: 'indicator.connected', read: true, write: false, name: { en: 'BLE link open right now', de: 'BLE-Verbindung gerade offen' } },
-    refresh: { type: 'boolean', role: 'button', read: false, write: true, name: { en: 'Read status now', de: 'Status jetzt lesen' } },
-    raw: { type: 'string', role: 'text', read: true, write: true, name: { en: 'Raw command (hex, experts only)', de: 'Rohbefehl (Hex, nur für Experten)' } },
-    firmware: { type: 'string', role: 'info.firmware', read: true, write: false, name: { en: 'Firmware', de: 'Firmware' } },
-    lastReply: { type: 'string', role: 'text', read: true, write: false, name: { en: 'Last reply (hex)', de: 'Letzte Antwort (Hex)' } },
+    power: {
+        type: 'boolean',
+        role: 'switch.power',
+        read: true,
+        write: true,
+        name: { en: 'Power (on / standby)', de: 'Ein (an / Standby)' },
+    },
+    level: {
+        type: 'number',
+        role: 'level',
+        read: true,
+        write: true,
+        unit: 'dB',
+        min: P.LEVEL_MIN,
+        max: P.LEVEL_MAX,
+        step: 1,
+        name: { en: 'Level', de: 'Pegel' },
+    },
+    lowpass: {
+        type: 'number',
+        role: 'level',
+        read: true,
+        write: true,
+        unit: 'Hz',
+        min: P.LOWPASS_MIN,
+        max: P.LOWPASS_MAX,
+        step: 5,
+        name: { en: 'Low-pass frequency', de: 'Tiefpass-Frequenz' },
+    },
+    phase180: {
+        type: 'boolean',
+        role: 'switch',
+        read: true,
+        write: true,
+        name: { en: 'Phase 180°', de: 'Phase 180°' },
+    },
+    roomEq: {
+        type: 'boolean',
+        role: 'indicator',
+        read: true,
+        write: false,
+        name: { en: 'Room EQ active', de: 'Raum-EQ aktiv' },
+    },
+    bleConnected: {
+        type: 'boolean',
+        role: 'indicator.connected',
+        read: true,
+        write: false,
+        name: { en: 'BLE link open right now', de: 'BLE-Verbindung gerade offen' },
+    },
+    refresh: {
+        type: 'boolean',
+        role: 'button',
+        read: false,
+        write: true,
+        name: { en: 'Read status now', de: 'Status jetzt lesen' },
+    },
+    raw: {
+        type: 'string',
+        role: 'text',
+        read: true,
+        write: true,
+        name: { en: 'Raw command (hex, experts only)', de: 'Rohbefehl (Hex, nur für Experten)' },
+    },
+    firmware: {
+        type: 'string',
+        role: 'info.firmware',
+        read: true,
+        write: false,
+        name: { en: 'Firmware', de: 'Firmware' },
+    },
+    lastReply: {
+        type: 'string',
+        role: 'text',
+        read: true,
+        write: false,
+        name: { en: 'Last reply (hex)', de: 'Letzte Antwort (Hex)' },
+    },
     error: { type: 'string', role: 'text', read: true, write: false, name: { en: 'Last error', de: 'Letzter Fehler' } },
 };
 
@@ -67,14 +135,20 @@ class NubertSub extends utils.Adapter {
         const ble = createBluetooth();
         this.bt = ble.bluetooth;
         this.destroyBt = ble.destroy;
+        // without this an unreachable system D-Bus would crash the adapter
+        this.bt.dbus.on('error', e => this.log.warn(`D-Bus: ${e.message}`));
 
-        this.mac = String(this.config.mac || '').trim().toUpperCase();
+        this.mac = String(this.config.mac || '')
+            .trim()
+            .toUpperCase();
         if (!MAC_RE.test(this.mac)) {
             this.mac = '';
             this.log.warn('No Bluetooth address configured: open the instance settings and press "Search sub"');
             return;
         }
-        this.charUuid = String(this.config.characteristic || P.CHARACTERISTIC).trim().toLowerCase();
+        this.charUuid = String(this.config.characteristic || P.CHARACTERISTIC)
+            .trim()
+            .toLowerCase();
         this.readbackDelay = Math.max(5, Number(this.config.readbackDelay) || 60) * 1000;
         this.idleDelay = Math.max(2, Number(this.config.idleDisconnect) || 5) * 1000;
 
@@ -219,7 +293,7 @@ class NubertSub extends utils.Adapter {
      * Use the device BlueZ already knows; discover only if it is unknown.
      * Marking it trusted keeps it known, so later connects need no discovery.
      *
-     * @param {any} adapter node-ble adapter
+     * @param {import("node-ble").Adapter} adapter node-ble adapter
      */
     async getDevice(adapter) {
         try {
@@ -350,7 +424,7 @@ class NubertSub extends utils.Adapter {
      * Run fn after all queued BLE work, without a connection to the sub
      * (the sub does not advertise while connected).
      *
-     * @param {() => Promise<any>} fn work
+     * @param {() => Promise<unknown>} fn work
      */
     runDisconnected(fn) {
         const p = this.queue.then(async () => {
@@ -373,7 +447,9 @@ class NubertSub extends utils.Adapter {
         const de = await this.isGerman();
         try {
             const found = await this.runDisconnected(() => this.scan(10));
-            this.log.info(`Search: ${found.length ? found.map(d => `${d.name} ${d.mac}`).join(', ') : 'nothing found'}`);
+            this.log.info(
+                `Search: ${found.length ? found.map(d => `${d.name} ${d.mac}`).join(', ') : 'nothing found'}`,
+            );
             if (!found.length) {
                 reply({
                     error: de
