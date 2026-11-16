@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "news": {
+      "0.4.3": {
+        "en": "Object names in all languages",
+        "de": "Objektnamen in allen Sprachen",
+        "ru": "Названия объектов на всех языках",
+        "pt": "Nomes de objetos em todos os idiomas",
+        "nl": "Objectnamen in alle talen",
+        "fr": "Noms des objets dans toutes les langues",
+        "it": "Nomi degli oggetti in tutte le lingue",
+        "es": "Nombres de objetos en todos los idiomas",
+        "pl": "Nazwy obiektów we wszystkich językach",
+        "uk": "Назви об’єктів усіма мовами",
+        "zh-cn": "所有语言的对象名称"
+      },
       "0.4.2": {
         "en": "Fixes from the ioBroker repository check (timers, dependencies, Node.js 26 tests)",
         "de": "Korrekturen aus der ioBroker-Repository-Prüfung (Timer, Abhängigkeiten, Tests mit Node.js 26)",

@@ -14,6 +14,7 @@ const utils = require('@iobroker/adapter-core');
 const { createBluetooth } = require('node-ble');
 const { Variant } = require('dbus-next');
 const P = require('./lib/protocol');
+const NAMES = require('./lib/names');
 
 const MAC_RE = /^([0-9A-F]{2}:){5}[0-9A-F]{2}$/;
 const CONNECT_ATTEMPTS = 5;
@@ -76,7 +77,7 @@ const STATES = {
     },
     bleConnected: {
         type: 'boolean',
-        role: 'indicator.connected',
+        role: 'indicator',
         read: true,
         write: false,
         name: { en: 'BLE link open right now', de: 'BLE-Verbindung gerade offen' },
@@ -161,7 +162,11 @@ class NubertSub extends utils.Adapter {
 
     async createObjects() {
         for (const [id, common] of Object.entries(STATES)) {
-            await this.extendObject(id, { type: 'state', common, native: {} });
+            await this.extendObject(id, {
+                type: 'state',
+                common: { ...common, name: NAMES[id] || common.name },
+                native: {},
+            });
         }
     }
 

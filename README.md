@@ -108,6 +108,9 @@ projects [nubertctl](https://github.com/trougnouf/nubertctl) and
     ### **WORK IN PROGRESS**
 -->
 
+### 0.4.3
+- Object names in all ioBroker languages; role of `bleConnected` is now `indicator`
+
 ### 0.4.2
 - Fixes from the ioBroker repository check: adapter timers instead of plain setTimeout, current dependencies, tests with Node.js 26, German guide moved to docs/de
 
