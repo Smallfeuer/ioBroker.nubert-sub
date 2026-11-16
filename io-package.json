@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "news": {
+      "0.4.4": {
+        "en": "Type checking, clean shutdown without warning, Dependabot auto-merge, older changelog moved",
+        "de": "Typprüfung, sauberes Beenden ohne Warnung, automatisches Übernehmen von Dependabot-Updates, älterer Changelog ausgelagert",
+        "ru": "Проверка типов, корректное завершение без предупреждения, автослияние Dependabot, старый журнал изменений вынесен",
+        "pt": "Verificação de tipos, encerramento limpo sem aviso, fusão automática do Dependabot, changelog antigo movido",
+        "nl": "Typecontrole, nette afsluiting zonder waarschuwing, automatisch samenvoegen van Dependabot, oudere changelog verplaatst",
+        "fr": "Vérification des types, arrêt propre sans avertissement, fusion automatique Dependabot, ancien journal déplacé",
+        "it": "Controllo dei tipi, arresto pulito senza avviso, unione automatica Dependabot, changelog precedente spostato",
+        "es": "Comprobación de tipos, cierre limpio sin aviso, fusión automática de Dependabot, registro de cambios antiguo movido",
+        "pl": "Sprawdzanie typów, czyste zamykanie bez ostrzeżenia, automatyczne scalanie Dependabot, starszy changelog przeniesiony",
+        "uk": "Перевірка типів, коректне завершення без попередження, автозлиття Dependabot, старий журнал змін винесено",
+        "zh-cn": "类型检查、无警告的正常关闭、Dependabot 自动合并、旧更新日志已移出"
+      },
       "0.4.3": {
         "en": "Object names in all languages",
         "de": "Objektnamen in allen Sprachen",

@@ -1,0 +1,20 @@
+// Root tsconfig to set the settings and power editor support for all JS files.
+// Type checking of the JavaScript sources via JSDoc, no build step.
+{
+    "extends": "@tsconfig/node22/tsconfig.json",
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "noEmit": true,
+        "strict": false,
+        "noImplicitAny": false,
+        "useUnknownInCatchVariables": false,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "types": ["node", "@iobroker/types"]
+    },
+    "include": ["main.js", "lib/**/*.js", "lib/**/*.d.ts"],
+    "exclude": ["node_modules/**", "test/**", "admin/**", ".dev-server/**"]
+}

@@ -108,6 +108,12 @@ projects [nubertctl](https://github.com/trougnouf/nubertctl) and
     ### **WORK IN PROGRESS**
 -->
 
+### 0.4.4
+- Type checking (tsconfig, `npm run check`), admin >= 7.6.20
+- Clean shutdown without "delay called" warning
+- Dependabot: auto-merge of patch/minor updates after all checks passed
+- Older changelog moved to CHANGELOG_OLD.md
+
 ### 0.4.3
 - Object names in all ioBroker languages; role of `bleConnected` is now `indicator`
 
@@ -120,22 +126,7 @@ projects [nubertctl](https://github.com/trougnouf/nubertctl) and
 ### 0.4.0
 - Translations (11 languages), icon, automatic tests, npm release
 
-### 0.3.0
-- `info.connection` now means "sub reachable": instance status stays green between commands
-- New state `bleConnected` for the short BLE link
-- Failed connects (5 attempts) are logged as error and turn the instance status red
-- Search saves the found address automatically
-
-### 0.2.0
-- Button "Search sub" in the instance settings
-- Setup guide (EN/DE) for Raspberry Pi, Debian/Ubuntu, Proxmox, Docker
-- Adapter keeps running without configured address (needed for the search)
-
-### 0.1.1
-- Faster connect retries (BlueZ `le-connection-abort-by-local`)
-
-### 0.1.0
-- Initial version
+Older changes: [CHANGELOG_OLD.md](CHANGELOG_OLD.md)
 
 ## License
 

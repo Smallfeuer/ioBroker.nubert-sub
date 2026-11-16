@@ -1,0 +1,49 @@
+# Merge Dependabot pull requests automatically, but only
+# - patch and minor updates (major updates stay for manual review)
+# - after all other checks of the pull request have passed.
+# Dependabot itself waits 7 days before proposing an update (cooldown in dependabot.yml).
+name: Auto-merge Dependabot PRs
+
+on:
+  pull_request_target:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Read Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Wait for the other checks and merge
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          # give the test workflow time to register its checks
+          sleep 60
+          for i in $(seq 1 100); do
+            json=$(gh pr checks "$PR" --json name,bucket || true)
+            pending=$(echo "$json" | jq '[.[] | select(.name != "automerge") | select(.bucket == "pending")] | length')
+            failed=$(echo "$json" | jq '[.[] | select(.name != "automerge") | select(.bucket == "fail" or .bucket == "cancel")] | length')
+            passed=$(echo "$json" | jq '[.[] | select(.name != "automerge") | select(.bucket == "pass")] | length')
+            echo "checks: passed=$passed pending=$pending failed=$failed"
+            if [ "$failed" != "0" ]; then echo "a check failed - not merging"; exit 1; fi
+            if [ "$pending" = "0" ] && [ "$passed" != "0" ]; then
+              gh pr merge "$PR" --squash
+              exit 0
+            fi
+            sleep 30
+          done
+          echo "checks did not finish in time - not merging"
+          exit 1

@@ -1,6 +1,7 @@
 node_modules/
 *.tgz
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .dev-server/
 .commitinfo

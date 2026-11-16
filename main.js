@@ -21,14 +21,32 @@ const CONNECT_ATTEMPTS = 5;
 const WAKE_DELAY = 4000;
 
 /**
+ * D-Bus helper of node-ble objects (not part of the node-ble typings).
+ *
+ * set set a D-Bus property
+ *
+ * prop read a D-Bus property
+ *
+ * callMethod call a D-Bus method
+ */
+
+/**
+ * Access node-ble internals that its typings do not declare.
+ *
+ * @param {object} obj node-ble Bluetooth, Adapter or Device
+ * @returns {{ helper: BusHelper, dbus: import('node:events').EventEmitter }} the same object, typed
+ */
+function bleInternals(obj) {
+    return obj;
+}
+
+/**
  * Error meaning "the sub cannot be reached" (logged as error, instance status red).
  *
  * @param {string} msg message
  */
 function noConnection(msg) {
-    const e = new Error(msg);
-    e.code = 'NO_CONNECTION';
-    return e;
+    return Object.assign(new Error(msg), { code: 'NO_CONNECTION' });
 } // the sub needs a moment after power-on before it reports values
 
 const STATES = {
@@ -136,7 +154,7 @@ class NubertSub extends utils.Adapter {
         this.bt = ble.bluetooth;
         this.destroyBt = ble.destroy;
         // without this an unreachable system D-Bus would crash the adapter
-        this.bt.dbus.on('error', e => this.log.warn(`D-Bus: ${e.message}`));
+        bleInternals(this.bt).dbus.on('error', e => this.log.warn(`D-Bus: ${e.message}`));
 
         this.mac = String(this.config.mac || '')
             .trim()
@@ -331,7 +349,9 @@ class NubertSub extends utils.Adapter {
                 await adapter.stopDiscovery().catch(() => {});
             }
         }
-        await device.helper.set('Trusted', new Variant('b', true)).catch(e => this.log.debug(`trust: ${e.message}`));
+        await bleInternals(device)
+            .helper.set('Trusted', new Variant('b', true))
+            .catch(e => this.log.debug(`trust: ${e.message}`));
         return device;
     }
 
@@ -383,7 +403,7 @@ class NubertSub extends utils.Adapter {
         if (r.firmware && r.firmware.text) {
             this.fw[r.firmware.index] = r.firmware.text;
             const text = Object.keys(this.fw)
-                .sort((a, b) => a - b)
+                .sort((a, b) => Number(a) - Number(b))
                 .map(k => this.fw[k])
                 .join('/');
             this.setState('firmware', text, true);
@@ -406,7 +426,9 @@ class NubertSub extends utils.Adapter {
         if (!(await adapter.isPowered())) {
             throw new Error('Bluetooth adapter is not powered');
         }
-        await adapter.helper.callMethod('SetDiscoveryFilter', { Transport: new Variant('s', 'le') }).catch(() => {});
+        await bleInternals(adapter)
+            .helper.callMethod('SetDiscoveryFilter', { Transport: new Variant('s', 'le') })
+            .catch(() => {});
         const started = !(await adapter.isDiscovering());
         if (started) {
             await adapter.startDiscovery();
@@ -428,7 +450,9 @@ class NubertSub extends utils.Adapter {
             if (!P.isNubert(name)) {
                 continue;
             }
-            const rssi = await dev.helper.prop('RSSI').catch(() => null);
+            const rssi = await bleInternals(dev)
+                .helper.prop('RSSI')
+                .catch(() => null);
             found.push({ mac: mac.toUpperCase(), name, rssi: typeof rssi === 'number' ? rssi : null });
         }
         found.sort((a, b) => (b.rssi ?? -999) - (a.rssi ?? -999));
@@ -439,14 +463,19 @@ class NubertSub extends utils.Adapter {
      * Run fn after all queued BLE work, without a connection to the sub
      * (the sub does not advertise while connected).
      *
-     * @param {() => Promise<unknown>} fn work
+     * @template T
+     * @param {() => Promise<T>} fn work
+     * @returns {Promise<T>} result of fn
      */
     runDisconnected(fn) {
         const p = this.queue.then(async () => {
             await this.disconnect();
             return fn();
         });
-        this.queue = p.catch(() => {});
+        this.queue = p.then(
+            () => {},
+            () => {},
+        );
         return p;
     }
 
@@ -525,8 +554,9 @@ class NubertSub extends utils.Adapter {
         this.stopping = true;
         this.clearTimer(this.readbackTimer);
         this.clearTimer(this.idleTimer);
-        const timeout = this.delay(3000);
-        Promise.race([this.disconnect(), timeout])
+        // no timer here: adapter timers are already stopped during unload;
+        // js-controller terminates the process if the disconnect should hang
+        this.disconnect()
             .catch(() => {})
             .finally(() => {
                 try {
