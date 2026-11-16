@@ -47,21 +47,10 @@ jobs:
     permissions:
       contents: write
       id-token: write
-    # npm Trusted Publishing (OIDC): no npm token stored anywhere.
-    # Configured on npmjs.com: package settings -> Trusted Publisher -> GitHub Actions,
-    # Smallfeuer / ioBroker.nubert-sub / test-and-release.yml
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # without npm-token the action uses npm Trusted Publishing (OIDC),
+      # configured on npmjs.com for Smallfeuer/ioBroker.nubert-sub, test-and-release.yml
+      - uses: ioBroker/testing-action-deploy@v1
         with:
           node-version: "24.x"
-          registry-url: "https://registry.npmjs.org"
-      - name: Use current npm (trusted publishing needs npm >= 11.5.1)
-        run: npm install -g npm@latest
-      - run: npm ci
-      - name: Publish to npm
-        run: npm publish --access public
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
