@@ -39,7 +39,7 @@ There is no periodic polling.
 ### 1. Requirements
 
 - Linux with **BlueZ** and a Bluetooth LE adapter (built-in or USB dongle), within ~10 m of the sub
-- ioBroker with js-controller ≥ 5, Node.js ≥ 20
+- ioBroker with js-controller ≥ 5, Node.js ≥ 22
 
 Check on the ioBroker machine:
 
@@ -117,7 +117,7 @@ Steuert einen **Nubert X-Sub** Subwoofer aus ioBroker per Bluetooth LE: an/Stand
 ### 1. Voraussetzungen
 
 - Linux mit **BlueZ** und Bluetooth-LE-Adapter (eingebaut oder USB-Stick), max. ca. 10 m vom Sub
-- ioBroker mit js-controller ≥ 5, Node.js ≥ 20
+- ioBroker mit js-controller ≥ 5, Node.js ≥ 22
 
 Prüfen auf dem ioBroker-Rechner:
 
