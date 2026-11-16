@@ -1,0 +1,37 @@
+{
+  "name": "iobroker.nubert-sub",
+  "version": "0.1.0",
+  "description": "Control a Nubert X-Sub subwoofer via Bluetooth LE",
+  "author": "selftaxadmin",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "nubert",
+    "subwoofer",
+    "x-sub",
+    "bluetooth",
+    "ble"
+  ],
+  "main": "main.js",
+  "files": [
+    "admin/",
+    "lib/",
+    "main.js",
+    "io-package.json",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "os": [
+    "linux"
+  ],
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.2.3",
+    "dbus-next": "^0.10.2",
+    "node-ble": "^1.13.0"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

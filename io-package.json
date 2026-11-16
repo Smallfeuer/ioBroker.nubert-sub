@@ -1,0 +1,88 @@
+{
+  "common": {
+    "name": "nubert-sub",
+    "version": "0.1.0",
+    "news": {
+      "0.1.0": {
+        "en": "Initial version",
+        "de": "Erste Version"
+      }
+    },
+    "titleLang": {
+      "en": "Nubert X-Sub (Bluetooth)",
+      "de": "Nubert X-Sub (Bluetooth)"
+    },
+    "desc": {
+      "en": "Switch a Nubert X-Sub subwoofer on/off and set level, low-pass and phase via Bluetooth LE",
+      "de": "Nubert X-Sub Subwoofer per Bluetooth LE ein/aus schalten und Pegel, Tiefpass und Phase einstellen"
+    },
+    "authors": [
+      "selftaxadmin"
+    ],
+    "keywords": [
+      "nubert",
+      "subwoofer",
+      "x-sub",
+      "bluetooth"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "type": "multimedia",
+    "compact": false,
+    "connectionType": "local",
+    "dataSource": "push",
+    "os": "linux",
+    "adminUI": {
+      "config": "json"
+    },
+    "tier": 3,
+    "enabled": true,
+    "loglevel": "info",
+    "readme": "https://github.com/selftaxadmin/ioBroker.nubert-sub/blob/main/README.md",
+    "dependencies": [
+      {
+        "js-controller": ">=5.0.19"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=6.0.0"
+      }
+    ]
+  },
+  "native": {
+    "mac": "",
+    "hci": "",
+    "readbackDelay": 60,
+    "idleDisconnect": 5,
+    "characteristic": "dc968ed5-ed46-43d9-8562-ae5984e55e40"
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": {
+          "en": "BLE connection active",
+          "de": "BLE-Verbindung aktiv"
+        },
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
+}

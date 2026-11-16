@@ -1,0 +1,47 @@
+{
+  "i18n": false,
+  "type": "panel",
+  "items": {
+    "mac": {
+      "type": "text",
+      "label": { "en": "Bluetooth address of the sub", "de": "Bluetooth-Adresse des Subs" },
+      "help": { "en": "e.g. CC:90:93:10:E2:DA", "de": "z. B. CC:90:93:10:E2:DA" },
+      "validator": "/^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(data.mac)",
+      "validatorNoSaveOnError": true,
+      "sm": 12,
+      "md": 6
+    },
+    "hci": {
+      "type": "text",
+      "label": { "en": "Bluetooth adapter (empty = default)", "de": "Bluetooth-Adapter (leer = Standard)" },
+      "help": { "en": "e.g. hci0", "de": "z. B. hci0" },
+      "sm": 12,
+      "md": 6
+    },
+    "readbackDelay": {
+      "type": "number",
+      "min": 5,
+      "max": 600,
+      "label": { "en": "Read status after last command (s)", "de": "Status lesen nach letzter Eingabe (s)" },
+      "newLine": true,
+      "sm": 12,
+      "md": 6
+    },
+    "idleDisconnect": {
+      "type": "number",
+      "min": 2,
+      "max": 300,
+      "label": { "en": "Disconnect when idle (s)", "de": "Trennen bei Leerlauf (s)" },
+      "help": { "en": "The sub allows only one connection; the vendor app can connect after this", "de": "Der Sub erlaubt nur eine Verbindung; danach kann sich die Hersteller-App verbinden" },
+      "sm": 12,
+      "md": 6
+    },
+    "characteristic": {
+      "type": "text",
+      "label": { "en": "GATT characteristic (experts)", "de": "GATT-Characteristic (Experten)" },
+      "newLine": true,
+      "sm": 12,
+      "md": 6
+    }
+  }
+}
