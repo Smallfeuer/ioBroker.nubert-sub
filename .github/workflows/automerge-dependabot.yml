@@ -1,5 +1,5 @@
 # Merge Dependabot pull requests automatically, but only
-# - patch and minor updates (major updates stay for manual review)
+# - the update types allowed in .github/auto-merge.yml (major updates stay for manual review)
 # - after all other checks of the pull request have passed.
 # Dependabot itself waits 7 days before proposing an update (cooldown in dependabot.yml).
 name: Auto-merge Dependabot PRs
@@ -23,8 +23,28 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      # pull_request_target checks out the base branch, so the rules come from main, not from the PR
+      - name: Checkout (base branch)
+        uses: actions/checkout@v4
+
+      - name: Check rules in .github/auto-merge.yml
+        id: rules
+        env:
+          DEP_TYPE: ${{ steps.meta.outputs.dependency-type }}
+          UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
+        run: |
+          type="${DEP_TYPE#*:}"                         # direct:production -> production
+          level="${UPDATE_TYPE#version-update:semver-}" # patch | minor | major
+          allowed=$(yq ".[] | select(.match.dependency_type == \"$type\") | .match.update_type" .github/auto-merge.yml | head -n 1)
+          merge=false
+          case "$allowed:$level" in
+            semver:minor:patch | semver:minor:minor | semver:patch:patch) merge=true ;;
+          esac
+          echo "dependency=$type update=$level allowed=${allowed:-none} -> merge=$merge"
+          echo "merge=$merge" >> "$GITHUB_OUTPUT"
+
       - name: Wait for the other checks and merge
-        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        if: steps.rules.outputs.merge == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}

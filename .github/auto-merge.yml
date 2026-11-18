@@ -1,0 +1,13 @@
+# Which Dependabot updates are merged automatically.
+# Read by .github/workflows/automerge-dependabot.yml.
+#
+# update_type "semver:minor" = patch and minor updates
+# update_type "semver:patch" = patch updates only
+# Major updates are never merged automatically, they stay for manual review.
+# A merge only happens after all other checks of the pull request have passed.
+- match:
+    dependency_type: production
+    update_type: "semver:minor"
+- match:
+    dependency_type: development
+    update_type: "semver:minor"
