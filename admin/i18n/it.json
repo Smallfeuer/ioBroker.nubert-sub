@@ -9,5 +9,6 @@
   "Read status after last command (s)": "Leggi lo stato dopo l’ultimo comando (s)",
   "Disconnect when idle (s)": "Disconnetti se inattivo (s)",
   "The sub allows only one connection; the vendor app can connect after this": "Il subwoofer consente una sola connessione; dopo può collegarsi l’app del produttore",
-  "GATT characteristic (experts)": "Caratteristica GATT (esperti)"
+  "GATT characteristic (experts)": "Caratteristica GATT (esperti)",
+  "No Nubert device found. Is the sub powered and the X-Remote app disconnected?": "Nessun dispositivo Nubert trovato. Il subwoofer è alimentato e l'app X-Remote disconnessa?"
 }

@@ -3,6 +3,7 @@
 [English README](../../README.md)
 
 Steuert einen **Nubert X-Sub** Subwoofer aus ioBroker per Bluetooth LE: an/Standby, Pegel, Tiefpass, Phase.
+Hersteller: [Nubert electronic GmbH](https://www.nubert.de/).
 **Inoffiziell**, nicht von Nubert. Nutzung auf eigene Gefahr.
 
 ## 1. Voraussetzungen

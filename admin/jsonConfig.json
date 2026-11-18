@@ -27,6 +27,9 @@
       "result": {
         "found": "Entered and saved: %s\nFound: %s"
       },
+      "error": {
+        "notFound": "No Nubert device found. Is the sub powered and the X-Remote app disconnected?"
+      },
       "xs": 12,
       "sm": 12,
       "md": 6,

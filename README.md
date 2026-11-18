@@ -7,6 +7,7 @@
 ![Test and Release](https://github.com/Smallfeuer/ioBroker.nubert-sub/workflows/Test%20and%20Release/badge.svg)
 
 Control a **Nubert X-Sub** subwoofer from ioBroker via Bluetooth LE.
+Manufacturer: [Nubert electronic GmbH](https://www.nubert.de/).
 
 > **Unofficial project.** Not affiliated with, endorsed or supported by Nubert electronic GmbH.
 > "Nubert" and "X-Sub" are trademarks of their respective owner and are used here only to describe
@@ -107,6 +108,11 @@ projects [nubertctl](https://github.com/trougnouf/nubertctl) and
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
+### 0.4.6 (2026-11-18)
+- All 11 languages for the name of `info.connection` (object check E6001)
+- Timer settings also limited in code (read-back 5 to 600 s, idle 2 to 300 s)
+- "Search sub": error text translated via admin i18n instead of an own language switch
+- README: link to the manufacturer
 
 ### 0.4.5
 - Type checking (tsconfig, `npm run check`), admin >= 7.6.20

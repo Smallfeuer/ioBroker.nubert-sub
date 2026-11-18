@@ -9,5 +9,6 @@
   "Read status after last command (s)": "Читання стану після останньої команди (с)",
   "Disconnect when idle (s)": "Від’єднання під час простою (с)",
   "The sub allows only one connection; the vendor app can connect after this": "Сабвуфер дозволяє лише одне з’єднання; після цього може під’єднатися застосунок виробника",
-  "GATT characteristic (experts)": "GATT-характеристика (для експертів)"
+  "GATT characteristic (experts)": "GATT-характеристика (для експертів)",
+  "No Nubert device found. Is the sub powered and the X-Remote app disconnected?": "Пристрій Nubert не знайдено. Чи увімкнений сабвуфер і чи відключено застосунок X-Remote?"
 }

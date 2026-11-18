@@ -169,8 +169,9 @@ class NubertSub extends utils.Adapter {
         this.charUuid = String(this.config.characteristic || P.CHARACTERISTIC)
             .trim()
             .toLowerCase();
-        this.readbackDelay = Math.max(5, Number(this.config.readbackDelay) || 60) * 1000;
-        this.idleDelay = Math.max(2, Number(this.config.idleDisconnect) || 5) * 1000;
+        // limits also enforced here, the jsonConfig min/max are UI-only
+        this.readbackDelay = Math.min(600, Math.max(5, Number(this.config.readbackDelay) || 60)) * 1000;
+        this.idleDelay = Math.min(300, Math.max(2, Number(this.config.idleDisconnect) || 5)) * 1000;
 
         this.subscribeStates('*');
         this.enqueue('start-up', async () => {
@@ -491,18 +492,14 @@ class NubertSub extends utils.Adapter {
             reply({ error: `unknown command ${obj.command}` });
             return;
         }
-        const de = await this.isGerman();
         try {
             const found = await this.runDisconnected(() => this.scan(10));
             this.log.info(
                 `Search: ${found.length ? found.map(d => `${d.name} ${d.mac}`).join(', ') : 'nothing found'}`,
             );
             if (!found.length) {
-                reply({
-                    error: de
-                        ? 'Kein Nubert-Gerät gefunden. Ist der Sub am Strom und die X-Remote-App getrennt?'
-                        : 'No Nubert device found. Is the sub powered and the X-Remote app disconnected?',
-                });
+                // admin shows the translated text from jsonConfig "error.notFound"
+                reply({ error: 'notFound' });
                 return;
             }
             const list = found.map(d => `${d.name} (${d.mac}${d.rssi !== null ? `, ${d.rssi} dBm` : ''})`).join(', ');
@@ -517,11 +514,6 @@ class NubertSub extends utils.Adapter {
             this.log.warn(`Search failed: ${e.message}`);
             reply({ error: e.message });
         }
-    }
-
-    async isGerman() {
-        const cfg = await this.getForeignObjectAsync('system.config').catch(() => null);
-        return !!(cfg && cfg.common && cfg.common.language === 'de');
     }
 
     // ---------------------------------------------------------------- ioBroker

@@ -9,5 +9,6 @@
   "Read status after last command (s)": "Lire l’état après la dernière commande (s)",
   "Disconnect when idle (s)": "Déconnecter en cas d’inactivité (s)",
   "The sub allows only one connection; the vendor app can connect after this": "Le caisson n’accepte qu’une connexion ; ensuite l’application du fabricant peut se connecter",
-  "GATT characteristic (experts)": "Caractéristique GATT (experts)"
+  "GATT characteristic (experts)": "Caractéristique GATT (experts)",
+  "No Nubert device found. Is the sub powered and the X-Remote app disconnected?": "Aucun appareil Nubert trouvé. Le caisson est-il alimenté et l'application X-Remote déconnectée ?"
 }

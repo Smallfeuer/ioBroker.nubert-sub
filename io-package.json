@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "nubert-sub",
-    "version": "0.4.5",
+    "version": "0.4.6",
     "news": {
+      "0.4.6": {
+        "en": "Object names in all 11 languages, timer limits enforced in code, search error text translated by admin, link to manufacturer",
+        "de": "Objektnamen in allen 11 Sprachen, Timer-Grenzen auch im Code, Fehlertext der Suche über Admin übersetzt, Link zum Hersteller",
+        "ru": "Имена объектов на всех 11 языках, ограничения таймеров в коде, текст ошибки поиска переводится админкой, ссылка на производителя",
+        "pt": "Nomes de objetos nos 11 idiomas, limites dos temporizadores no código, texto de erro da pesquisa traduzido pelo admin, link para o fabricante",
+        "nl": "Objectnamen in alle 11 talen, timergrenzen ook in de code, foutmelding van het zoeken via admin vertaald, link naar de fabrikant",
+        "fr": "Noms d'objets dans les 11 langues, limites des minuteries appliquées dans le code, message d'erreur de recherche traduit par l'admin, lien vers le fabricant",
+        "it": "Nomi degli oggetti in tutte le 11 lingue, limiti dei timer applicati nel codice, testo di errore della ricerca tradotto dall'admin, link al produttore",
+        "es": "Nombres de objetos en los 11 idiomas, límites de temporizadores aplicados en el código, texto de error de búsqueda traducido por el admin, enlace al fabricante",
+        "pl": "Nazwy obiektów we wszystkich 11 językach, limity timerów także w kodzie, komunikat błędu wyszukiwania tłumaczony przez admina, link do producenta",
+        "uk": "Назви об'єктів усіма 11 мовами, обмеження таймерів у коді, текст помилки пошуку перекладає адмінка, посилання на виробника",
+        "zh-cn": "所有 11 种语言的对象名称，代码中限制计时器范围，搜索错误文本由 admin 翻译，添加制造商链接"
+      },
       "0.4.5": {
         "en": "Type checking, clean shutdown without warning, Dependabot auto-merge, older changelog moved",
         "de": "Typprüfung, sauberes Beenden ohne Warnung, automatisches Übernehmen von Dependabot-Updates, älterer Changelog ausgelagert",
@@ -173,7 +186,16 @@
         "role": "indicator.connected",
         "name": {
           "en": "Sub reachable (last connect succeeded)",
-          "de": "Sub erreichbar (letzte Verbindung erfolgreich)"
+          "de": "Sub erreichbar (letzte Verbindung erfolgreich)",
+          "ru": "Сабвуфер доступен (последнее подключение успешно)",
+          "pt": "Subwoofer acessível (última ligação bem-sucedida)",
+          "nl": "Sub bereikbaar (laatste verbinding geslaagd)",
+          "fr": "Caisson accessible (dernière connexion réussie)",
+          "it": "Subwoofer raggiungibile (ultima connessione riuscita)",
+          "es": "Subwoofer accesible (última conexión correcta)",
+          "pl": "Subwoofer osiągalny (ostatnie połączenie udane)",
+          "uk": "Сабвуфер доступний (останнє підключення успішне)",
+          "zh-cn": "低音炮可访问（上次连接成功）"
         },
         "type": "boolean",
         "read": true,

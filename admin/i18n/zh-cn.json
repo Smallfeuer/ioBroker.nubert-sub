@@ -9,5 +9,6 @@
   "Read status after last command (s)": "最后一条命令后读取状态（秒）",
   "Disconnect when idle (s)": "空闲时断开（秒）",
   "The sub allows only one connection; the vendor app can connect after this": "低音炮只允许一个连接；之后厂商应用可以连接",
-  "GATT characteristic (experts)": "GATT 特征（专家）"
+  "GATT characteristic (experts)": "GATT 特征（专家）",
+  "No Nubert device found. Is the sub powered and the X-Remote app disconnected?": "未找到 Nubert 设备。低音炮是否已通电，X-Remote 应用是否已断开？"
 }
